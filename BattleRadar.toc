@@ -1,0 +1,17 @@
+## Interface: 100200
+## Title: BattleRadar
+## Notes: Shows burst and defensive cooldown indicators near enemy nameplates using sword and shield icons.
+## Author: Kopka
+## Version: 0.0.1
+## RequiredDeps:
+## X-Curse-Project-ID:
+## SavedVariables: BattleRadarDB
+## SavedVariablesPerCharacter: BattleRadarCharDB
+## Dependencies: Blizzard_UIWidgets
+
+constants.lua
+debug.lua
+BattleRadarDB.lua
+BattleRadarWindow.lua
+BattleRadarEvents.lua
+BattleRadar.lua

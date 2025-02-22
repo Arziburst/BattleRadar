@@ -1,0 +1,8 @@
+{
+  "name": "battleradar",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "luacheck . && mkdir -p dist/BattleRadar && cp -r *.lua *.toc dist/BattleRadar/",
+    "test": "luacheck ."
+  }
+} 

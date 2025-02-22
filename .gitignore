@@ -1,0 +1,24 @@
+# Lua
+*.lua.debug
+*.lua.old
+
+# Lua compiled files
+*.lua.txt
+*.luac
+
+# WoW specific
+WTF/
+Interface/AddOns/*/Bindings.xml
+Interface/AddOns/*/SavedVariables/
+Interface/AddOns/*/Blizzard_*/
+Blizzard_*
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backup files
+*.bak
+*~
+*.swp
