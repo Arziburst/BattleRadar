@@ -9,6 +9,8 @@ function BattleRadar:InitEvents()
     frame:RegisterEvent("PLAYER_LOGIN")           -- Вход в игру
     frame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED") -- События боя
     frame:RegisterEvent("CHAT_MSG_MONEY")         -- Получение золота
+    frame:RegisterEvent("PLAYER_REGEN_DISABLED")  -- Вход в бой
+    frame:RegisterEvent("PLAYER_REGEN_ENABLED")   -- Выход из боя
     
     -- Обработчик событий
     frame:SetScript("OnEvent", function(self, event, ...)
@@ -16,8 +18,18 @@ function BattleRadar:InitEvents()
         if event == "PLAYER_LOGIN" then
             BattleRadar:InitDB()
             BattleRadar:CreateMainWindow()
-            BattleRadar:RestoreWindowPosition()
+            BattleRadar:CreateCombatStatusFrame()
             print(BattleRadar.CONSTANTS.ADDON_NAME .. " v" .. BattleRadar.CONSTANTS.VERSION .. " ready!")
+        
+        -- Вход в бой
+        elseif event == "PLAYER_REGEN_DISABLED" then
+            BattleRadar.inCombat = true
+            BattleRadar:UpdateCombatStatus(true)
+        
+        -- Выход из боя
+        elseif event == "PLAYER_REGEN_ENABLED" then
+            BattleRadar.inCombat = false
+            BattleRadar:UpdateCombatStatus(false)
         
         -- Обработка боевых событий (убийства)
         elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then

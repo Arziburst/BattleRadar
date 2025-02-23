@@ -4,9 +4,16 @@ local _, BattleRadar = ...
 BattleRadar.debug = true
 
 -- Функция для отладочного вывода
-function BattleRadar:Debug(...)
-    if self.debug then
-        print(self.CONSTANTS.COLORS.GREEN .. self.CONSTANTS.ADDON_NAME .. " Debug:|r", ...)
+function BattleRadar:Debug(message)
+    if not self.debugMode then return end
+
+    if type(message) == "table" then
+        print("|cFF00FF00BattleRadar Debug:|r Table contents:")
+        for k, v in pairs(message) do
+            print("  " .. tostring(k) .. " = " .. tostring(v))
+        end
+    else
+        print("|cFF00FF00BattleRadar Debug:|r " .. tostring(message))
     end
 end
 

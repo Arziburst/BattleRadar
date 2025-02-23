@@ -3,6 +3,12 @@ local _, BattleRadar = ...
 -- Начальное состояние БД
 local DEFAULT_DB = {
     windowPosition = nil,  -- Позиция окна
+    combatFramePosition = nil, -- Позиция фрейма статуса боя
+    combatFrameSettings = {
+        alpha = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.ALPHA,
+        alwaysShow = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.ALWAYS_SHOW
+    },
+    debugMode = false,    -- Состояние режима отладки
     totalGold = 0,        -- Собранное золото
     totalSilver = 0,      -- Собранное серебро
     totalCopper = 0,      -- Собранная медь
@@ -12,8 +18,6 @@ local DEFAULT_DB = {
 -- Инициализация базы данных
 -- Создает или загружает сохраненные настройки и статистику
 function BattleRadar:InitDB()
-    -- BattleRadarDB уже существует если был сохранен ранее
-    -- Если нет - создаем новый с дефолтными значениями
     BattleRadarDB = BattleRadarDB or self:GetDefaultDB()
     self.db = BattleRadarDB
 end
@@ -30,22 +34,20 @@ end
 -- Сброс статистики золота и убийств
 -- @param keepPosition - если true, сохраняет текущую позицию окна
 function BattleRadar:ResetDB(keepPosition)
-    -- Сохраняем текущую позицию окна если нужно
     local currentPos = keepPosition and self.db.windowPosition or nil
+    local combatPos = keepPosition and self.db.combatFramePosition or nil
+    local combatSettings = keepPosition and self.db.combatFrameSettings or DEFAULT_DB.combatFrameSettings
     
-    -- Сбрасываем только золото и убийства
-    self.db.totalGold = 0
-    self.db.totalSilver = 0
-    self.db.totalCopper = 0
-    self.db.totalKills = 0
+    self.db = self:GetDefaultDB()
     
-    -- Восстанавливаем позицию если нужно
     if keepPosition then
         self.db.windowPosition = currentPos
+        self.db.combatFramePosition = combatPos
+        self.db.combatFrameSettings = combatSettings
     end
     
     self:UpdateStatsText()
-    self:Debug("Statistics have been reset" .. (keepPosition and " (window position kept)" or ""))
+    self:Debug("Statistics have been reset" .. (keepPosition and " (positions kept)" or ""))
 end
 
 -- Полное удаление БД
