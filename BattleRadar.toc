@@ -4,10 +4,16 @@
 ## Author: Kopka
 ## Version: 0.0.1
 ## SavedVariables: BattleRadarDB
+## X-Category: Interface
+## IconTexture: Interface\Icons\Ability_Warrior_OffensiveStance
 
+# Media files
+Media\MinimapButton.tga
+
+# AddOn files
 constants.lua
 debug.lua
 BattleRadarDB.lua
-BattleRadarWindow.lua
+options.lua
 BattleRadarEvents.lua
 BattleRadar.lua

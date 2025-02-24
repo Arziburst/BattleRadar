@@ -3,10 +3,17 @@ local _, BattleRadar = ...
 -- Включение режима отладки по умолчанию
 BattleRadar.debug = true
 
+-- Уровни отладки
+local DEBUG_LEVELS = {
+    INFO = 1,
+    WARNING = 2,
+    ERROR = 3
+}
+
 -- Функция для отладочного вывода
 function BattleRadar:Debug(message)
     if not self.debugMode then return end
-
+    
     if type(message) == "table" then
         print("|cFF00FF00BattleRadar Debug:|r Table contents:")
         for k, v in pairs(message) do
@@ -14,6 +21,21 @@ function BattleRadar:Debug(message)
         end
     else
         print("|cFF00FF00BattleRadar Debug:|r " .. tostring(message))
+    end
+end
+
+function BattleRadar:DebugTable(tbl, depth)
+    depth = depth or 0
+    local indent = string.rep("  ", depth)
+    
+    for k, v in pairs(tbl) do
+        if type(v) == "table" then
+            print(indent .. tostring(k) .. " = {")
+            self:DebugTable(v, depth + 1)
+            print(indent .. "}")
+        else
+            print(indent .. tostring(k) .. " = " .. tostring(v))
+        end
     end
 end
 

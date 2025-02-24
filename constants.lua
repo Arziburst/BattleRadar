@@ -6,10 +6,22 @@ BattleRadar.CONSTANTS = {
     ADDON_NAME = "BattleRadar",
     VERSION = "0.0.1",
     
+    -- События
+    EVENTS = {
+        ADDON_LOADED = "ADDON_LOADED",
+        ENTER_COMBAT = "PLAYER_REGEN_DISABLED",
+        EXIT_COMBAT = "PLAYER_REGEN_ENABLED"
+    },
+    
+    COMMANDS = {
+        SETTINGS = "/brs",
+        RESET = "/brr"
+    },
+    
     -- Звуковые эффекты
     SOUND = {
-        OPEN = 808,   -- Звук открытия окна
-        CLOSE = 808   -- Звук закрытия окна
+        OPEN = 882,   -- Звук открытия окна
+        CLOSE = 881   -- Звук закрытия окна
     },
     
     -- Цветовые коды для текста
@@ -18,58 +30,54 @@ BattleRadar.CONSTANTS = {
         GREEN = "|cFF00FF00",
     },
 
-    -- Размеры окон
+    -- Размеры
     SIZES = {
-        MAIN_WINDOW = {
-            WIDTH = 500,
-            HEIGHT = 350
-        },
         COMBAT_FRAME = {
-            WIDTH = 150,
-            HEIGHT = 30
+            WIDTH = 32,
+            HEIGHT = 32
+        },
+        MAIN_WINDOW = {
+            WIDTH = 400,
+            HEIGHT = 300
         },
         STATS_SECTION = {
-            WIDTH = 230,
+            WIDTH = 180,
             HEIGHT = 200
         },
         CONTROL_SECTION = {
-            WIDTH = 230,
+            WIDTH = 180,
             HEIGHT = 200
         }
     },
 
-    -- Позиции по умолчанию
+    -- Позиции
     POSITIONS = {
         COMBAT_FRAME = {
-            POINT = "TOP",
-            Y_OFFSET = -100
+            POINT = "CENTER",
+            Y_OFFSET = 200
         }
     },
 
     -- Настройки интерфейса
     UI = {
         BUTTON = {
-            WIDTH = 200,
+            WIDTH = 150,
             HEIGHT = 25
         },
-        TITLE_HEIGHT = 30,
+        TITLE_HEIGHT = 20,
         SECTION_PADDING = 10,
         BUTTON_SPACING = 5
     },
 
     -- Тексты интерфейса
     TEXT = {
-        COMBAT = {
-            IN = "● IN COMBAT",
-            OUT = "○ OUT OF COMBAT"
-        },
         STATS = {
-            FORMAT = "Total kills: %d\ngold %d silver %d copper"
+            FORMAT = "Total kills: %d\nGold earned: %dg %ds %dc"
         },
         BUTTONS = {
-            RESET = "Reset Statistics",
-            WIPE = "Wipe Database",
-            DEBUG = "Toggle Debug Mode"
+            RESET = "Reset Stats",
+            WIPE = "Wipe DB",
+            DEBUG = "Debug Mode"
         },
         SECTIONS = {
             STATS = "Statistics",
@@ -92,6 +100,6 @@ BattleRadar.CONSTANTS = {
                 OUT_COMBAT = "Interface/Icons/Spell_LifegivingSpeed"
             }
         },
-        HIDE_DELAY = 3  -- Задержка скрытия фрейма боя в секундах
+        HIDE_DELAY = 3
     }
 } 
