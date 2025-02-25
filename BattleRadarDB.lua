@@ -8,7 +8,8 @@ local DEFAULT_DB = {
     combatFrameSettings = {
         alpha = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.ALPHA,
         alwaysShow = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.ALWAYS_SHOW,
-        showMinimapButton = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.SHOW_MINIMAP
+        showMinimapButton = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.SHOW_MINIMAP,
+        lockFrame = false  -- Меняем на false, чтобы по умолчанию можно было двигать
     },
     debugMode = false
 }

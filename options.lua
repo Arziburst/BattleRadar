@@ -24,9 +24,19 @@ function BattleRadar:SetupConfig()
         end
     end)
     
+    -- Чекбокс для блокировки фрейма
+    local lockFrameCheckbox = CreateFrame("CheckButton", nil, panel, "InterfaceOptionsCheckButtonTemplate")
+    lockFrameCheckbox:SetPoint("TOPLEFT", showCheckbox, "BOTTOMLEFT", 0, -10)
+    lockFrameCheckbox.Text:SetText("Lock combat frame position")
+    lockFrameCheckbox:SetChecked(self.db.combatFrameSettings.lockFrame)
+    lockFrameCheckbox:SetScript("OnClick", function(self)
+        BattleRadar.db.combatFrameSettings.lockFrame = self:GetChecked()
+        BattleRadar:UpdateFrameLock()
+    end)
+    
     -- Чекбокс для отображения кнопки на миникарте
     local minimapCheckbox = CreateFrame("CheckButton", nil, panel, "InterfaceOptionsCheckButtonTemplate")
-    minimapCheckbox:SetPoint("TOPLEFT", showCheckbox, "BOTTOMLEFT", 0, -10)
+    minimapCheckbox:SetPoint("TOPLEFT", lockFrameCheckbox, "BOTTOMLEFT", 0, -10)
     minimapCheckbox.Text:SetText(self.CONSTANTS.TEXT.SETTINGS.SHOW_MINIMAP)
     minimapCheckbox:SetChecked(self.db.combatFrameSettings.showMinimapButton)
     minimapCheckbox:SetScript("OnClick", function(self)

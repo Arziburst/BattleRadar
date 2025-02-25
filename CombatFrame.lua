@@ -8,6 +8,13 @@ function BattleRadar:UpdateCombatFrameAlpha(value)
 end
 
 function BattleRadar:CreateCombatStatusFrame()
+    -- Проверяем, существует ли уже фрейм, и если да - удаляем его
+    if self.combatStatusFrame then
+        self.combatStatusFrame:Hide()
+        self.combatStatusFrame:SetParent(nil)
+        self.combatStatusFrame = nil
+    end
+
     local frame = CreateFrame("Frame", "BattleRadarCombatStatus", UIParent)
     frame:SetSize(self.CONSTANTS.SIZES.COMBAT_FRAME.WIDTH, self.CONSTANTS.SIZES.COMBAT_FRAME.HEIGHT)
     frame:SetPoint(self.CONSTANTS.POSITIONS.COMBAT_FRAME.POINT, UIParent, self.CONSTANTS.POSITIONS.COMBAT_FRAME.POINT, 0, self.CONSTANTS.POSITIONS.COMBAT_FRAME.Y_OFFSET)
@@ -22,15 +29,9 @@ function BattleRadar:CreateCombatStatusFrame()
     -- Настройка перемещения
     frame:EnableMouse(true)
     frame:SetMovable(true)
-    frame:RegisterForDrag("LeftButton")
-    frame:SetScript("OnDragStart", function(self)
-        self:StartMoving()
-    end)
-    frame:SetScript("OnDragStop", function(self)
-        self:StopMovingOrSizing()
-        local point, _, _, x, y = self:GetPoint()
-        BattleRadar.db.combatFramePosition = {point = point, x = x, y = y}
-    end)
+    
+    -- Обновляем состояние блокировки
+    self:UpdateFrameLock()
     
     -- Восстанавливаем сохраненную позицию
     if self.db.combatFramePosition then
@@ -62,9 +63,36 @@ function BattleRadar:UpdateCombatStatus(inCombat)
         self.combatStatusFrame.statusIcon:SetTexture(self.CONSTANTS.DEFAULTS.COMBAT_FRAME.ICONS.OUT_COMBAT)
         if not self.db.combatFrameSettings.alwaysShow then
             C_Timer.After(self.CONSTANTS.DEFAULTS.HIDE_DELAY, function()
-                self.combatStatusFrame:Hide()
+                if not UnitAffectingCombat("player") then
+                    self.combatStatusFrame:Hide()
+                end
             end)
         end
+    end
+end
+
+function BattleRadar:UpdateFrameLock()
+    if not self.combatStatusFrame then return end
+    
+    if self.db.combatFrameSettings.lockFrame then
+        self.combatStatusFrame:SetMovable(false)
+        self.combatStatusFrame:EnableMouse(false)
+        self.combatStatusFrame:RegisterForDrag(nil)
+        self.combatStatusFrame:SetScript("OnDragStart", nil)
+        self.combatStatusFrame:SetScript("OnDragStop", nil)
+    else
+        self.combatStatusFrame:SetMovable(true)
+        self.combatStatusFrame:EnableMouse(true)
+        self.combatStatusFrame:RegisterForDrag("LeftButton")
+        self.combatStatusFrame:SetScript("OnDragStart", function(frame) 
+            frame:StartMoving() 
+        end)
+        self.combatStatusFrame:SetScript("OnDragStop", function(frame) 
+            frame:StopMovingOrSizing()
+            -- Сохраняем позицию
+            local point, _, relativePoint, xOfs, yOfs = frame:GetPoint()
+            self.db.combatFramePosition = {point = point, x = xOfs, y = yOfs}
+        end)
     end
 end
 

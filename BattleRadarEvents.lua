@@ -2,14 +2,6 @@ local _, BattleRadar = ...
 
 -- Обработчики событий
 local EventHandlers = {
-    [BattleRadar.CONSTANTS.EVENTS.ADDON_LOADED] = function(self, addon)
-        if addon ~= "BattleRadar" then return end
-        BattleRadar:InitDB()
-        BattleRadar:CreateCombatStatusFrame()
-        BattleRadar:SetupConfig()
-        print(BattleRadar.CONSTANTS.ADDON_NAME .. " v" .. BattleRadar.CONSTANTS.VERSION .. " ready!")
-    end,
-    
     [BattleRadar.CONSTANTS.EVENTS.ENTER_COMBAT] = function()
         BattleRadar.inCombat = true
         BattleRadar:UpdateCombatStatus(true)
@@ -22,12 +14,10 @@ local EventHandlers = {
 }
 
 -- Инициализация системы событий
--- Регистрирует и обрабатывает все игровые события
 function BattleRadar:InitEvents()
     local frame = CreateFrame("Frame")
     
     -- Регистрация событий
-    frame:RegisterEvent("ADDON_LOADED")
     frame:RegisterEvent("PLAYER_REGEN_DISABLED")
     frame:RegisterEvent("PLAYER_REGEN_ENABLED")
     
