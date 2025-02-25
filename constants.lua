@@ -60,7 +60,6 @@ BattleRadar.CONSTANTS = {
         BUTTONS = {
             RESET = "Reset Settings"
         },
-        SECTIONS = {},
         SETTINGS = {
             ALWAYS_SHOW = "Always show combat frame",
             SHOW_MINIMAP = "Show minimap button",

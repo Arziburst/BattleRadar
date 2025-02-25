@@ -9,14 +9,33 @@ local DEFAULT_DB = {
         alpha = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.ALPHA,
         alwaysShow = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.ALWAYS_SHOW,
         showMinimapButton = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.SHOW_MINIMAP,
-        lockFrame = false  -- Меняем на false, чтобы по умолчанию можно было двигать
+        lockFrame = false,  -- По умолчанию фрейм можно двигать
+        hideDelay = "3" -- Время до скрытия иконки
     },
-    debugMode = false
+    debugMode = false -- Режим отладки выключен по умолчанию
 }
 
 -- Методы работы с БД
 function BattleRadar:InitDB()
-    BattleRadarDB = BattleRadarDB or self:GetDefaultDB()
+    if not BattleRadarDB then
+        BattleRadarDB = self:GetDefaultDB()
+    end
+    
+    -- Проверяем наличие всех необходимых полей
+    if not BattleRadarDB.combatFrameSettings then
+        BattleRadarDB.combatFrameSettings = DEFAULT_DB.combatFrameSettings
+    end
+    
+    -- Проверяем и устанавливаем значения по умолчанию
+    if type(BattleRadarDB.combatFrameSettings.hideDelay) ~= "string" then
+        BattleRadarDB.combatFrameSettings.hideDelay = DEFAULT_DB.combatFrameSettings.hideDelay
+    end
+    
+    -- Проверяем наличие поля debugMode
+    if type(BattleRadarDB.debugMode) ~= "boolean" then
+        BattleRadarDB.debugMode = DEFAULT_DB.debugMode
+    end
+    
     self.db = BattleRadarDB
 end
 
@@ -64,6 +83,11 @@ function BattleRadar:LoadSettings()
         local slider = self.optionsPanel.alphaSlider
         if slider then
             slider:SetValue(self.db.combatFrameSettings.alpha)
+        end
+        
+        local hideDelayInput = self.optionsPanel.hideDelayInput
+        if hideDelayInput then
+            hideDelayInput:SetText(tostring(self.db.combatFrameSettings.hideDelay))
         end
     end
 end 
