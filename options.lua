@@ -24,9 +24,23 @@ function BattleRadar:SetupConfig()
         end
     end)
     
+    -- Чекбокс для отображения кнопки на миникарте
+    local minimapCheckbox = CreateFrame("CheckButton", nil, panel, "InterfaceOptionsCheckButtonTemplate")
+    minimapCheckbox:SetPoint("TOPLEFT", showCheckbox, "BOTTOMLEFT", 0, -10)
+    minimapCheckbox.Text:SetText(self.CONSTANTS.TEXT.SETTINGS.SHOW_MINIMAP)
+    minimapCheckbox:SetChecked(self.db.combatFrameSettings.showMinimapButton)
+    minimapCheckbox:SetScript("OnClick", function(self)
+        BattleRadar.db.combatFrameSettings.showMinimapButton = self:GetChecked()
+        if self:GetChecked() then
+            BattleRadar.minimapButton:Show()
+        else
+            BattleRadar.minimapButton:Hide()
+        end
+    end)
+    
     -- Слайдер прозрачности
     local alphaSlider = CreateFrame("Slider", nil, panel, "OptionsSliderTemplate")
-    alphaSlider:SetPoint("TOPLEFT", showCheckbox, "BOTTOMLEFT", 0, -40)
+    alphaSlider:SetPoint("TOPLEFT", minimapCheckbox, "BOTTOMLEFT", 0, -40)
     alphaSlider:SetWidth(200)
     alphaSlider:SetMinMaxValues(0, 1)
     alphaSlider:SetValue(self.db.combatFrameSettings.alpha)
@@ -35,6 +49,30 @@ function BattleRadar:SetupConfig()
     alphaSlider:SetScript("OnValueChanged", function(self, value)
         BattleRadar.db.combatFrameSettings.alpha = value
         BattleRadar:UpdateCombatFrameAlpha(value)
+    end)
+    
+    -- Кнопка сброса настроек
+    local resetButton = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+    resetButton:SetSize(120, 22)
+    resetButton:SetPoint("TOPLEFT", alphaSlider, "BOTTOMLEFT", 0, -20)
+    resetButton:SetText("Reset Settings")
+    resetButton:SetScript("OnClick", function()
+        -- Создаем диалог подтверждения
+        StaticPopupDialogs["BATTLERADAR_RESET_CONFIRM"] = {
+            text = "Are you sure you want to reset all BattleRadar settings to default?",
+            button1 = "Yes",
+            button2 = "No",
+            OnAccept = function()
+                BattleRadar:WipeDB()
+                -- Перезагружаем UI для применения изменений
+                ReloadUI()
+            end,
+            timeout = 0,
+            whileDead = true,
+            hideOnEscape = true,
+            preferredIndex = 3
+        }
+        StaticPopup_Show("BATTLERADAR_RESET_CONFIRM")
     end)
     
     -- Сохраняем ссылку на панель

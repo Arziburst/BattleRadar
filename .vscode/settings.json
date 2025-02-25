@@ -24,11 +24,6 @@
         "InterfaceOptions_AddCategory",
         "InterfaceOptionsFrame_OpenToCategory",
         "InterfaceOptionsCheckButtonTemplate",
-        "CombatLogGetCurrentEventInfo",
-        "PlaySound",
-        "UnitName",
-        "UnitLevel",
-        "C_Timer",
         "ReloadUI",
         "Settings",
         "UIDropDownMenu_AddButton",
@@ -42,7 +37,8 @@
         "StaticPopup_Show",
         "AddonCompartmentFrame",
         "DEFAULT_CHAT_FRAME",
-        "SettingsPanel"
+        "SettingsPanel",
+        "StaticPopupDialogs"
     ],
     "Lua.workspace.library": [
         "c:\\Users\\arzib\\.cursor\\extensions\\ketho.wow-api-0.18.2\\Annotations"

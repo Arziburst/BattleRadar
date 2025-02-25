@@ -7,13 +7,12 @@
 ## X-Category: Interface
 ## IconTexture: Interface\Icons\Ability_Warrior_OffensiveStance
 
-# Media files
-Media\MinimapButton.tga
-
 # AddOn files
 constants.lua
 debug.lua
 BattleRadarDB.lua
+MinimapButton.lua
+CombatFrame.lua
 options.lua
 BattleRadarEvents.lua
 BattleRadar.lua

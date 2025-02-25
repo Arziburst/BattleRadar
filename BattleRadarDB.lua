@@ -7,7 +7,8 @@ local DEFAULT_DB = {
     minimapButtonPosition = -0.75, -- Начальная позиция справа
     combatFrameSettings = {
         alpha = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.ALPHA,
-        alwaysShow = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.ALWAYS_SHOW
+        alwaysShow = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.ALWAYS_SHOW,
+        showMinimapButton = BattleRadar.CONSTANTS.DEFAULTS.COMBAT_FRAME.SHOW_MINIMAP
     },
     debugMode = false
 }
@@ -52,6 +53,11 @@ function BattleRadar:LoadSettings()
         local checkbox = self.optionsPanel.showCheckbox
         if checkbox then
             checkbox:SetChecked(self.db.combatFrameSettings.alwaysShow)
+        end
+        
+        local minimapCheckbox = self.optionsPanel.minimapCheckbox
+        if minimapCheckbox then
+            minimapCheckbox:SetChecked(self.db.combatFrameSettings.showMinimapButton)
         end
         
         local slider = self.optionsPanel.alphaSlider
